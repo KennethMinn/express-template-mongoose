@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { loginSchema } from "../types/auth/loginSchema";
 import { registerSchema } from "../types/auth/registerSchema";
-import { ErrorService } from "../services/errorService";
+import { errorService, ErrorService } from "../services/errorService";
 
 export class AuthValidator {
   constructor(private errorService: ErrorService) {}
@@ -14,3 +14,5 @@ export class AuthValidator {
     return this.errorService.handleErrorMessage(loginSchema, req, res, next);
   }
 }
+
+export const authValidator = new AuthValidator(errorService);

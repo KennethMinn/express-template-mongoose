@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { AuthService } from "../services/authService";
+import { authService, AuthService } from "../services/authService";
 
 export class AuthMiddleware {
   constructor(private authService: AuthService) {}
@@ -8,3 +8,5 @@ export class AuthMiddleware {
     return this.authService.verifyJwtToken(req, res, next);
   }
 }
+
+export const authMidlleware = new AuthMiddleware(authService);

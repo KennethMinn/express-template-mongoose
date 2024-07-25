@@ -40,14 +40,10 @@ export class AuthService {
         return res.status(400).json({ message: "Invalid credentials" });
       }
 
-      //actual response body for user
-      const userResponse = {
-        id: user.id,
-        email: user.email,
-      };
+      const payload = { id: user.id, email: user.email };
 
       const accessToken = createToken(
-        userResponse,
+        payload,
         process.env.ACCESS_TOKEN_SECRET!,
         {
           expiresIn: "15m",
@@ -55,7 +51,7 @@ export class AuthService {
       );
 
       const refreshToken = createToken(
-        userResponse,
+        payload,
         process.env.REFRESH_TOKEN_SECRET!,
         { expiresIn: "3d" }
       );
@@ -69,7 +65,7 @@ export class AuthService {
         maxAge: 24 * 60 * 60 * 1000,
       });
 
-      return res.status(200).json({ accessToken, user: userResponse });
+      return res.status(200).json({ accessToken, user: user });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error" });
@@ -113,7 +109,7 @@ export class AuthService {
         { userId: foundUser.id },
         process.env.ACCESS_TOKEN_SECRET!,
         {
-          expiresIn: "20s",
+          expiresIn: "15m",
         }
       );
 
@@ -138,3 +134,5 @@ export class AuthService {
     });
   }
 }
+
+export const authService = new AuthService();

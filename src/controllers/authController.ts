@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AuthService } from "../services/authService";
+import { authService, AuthService } from "../services/authService";
 
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -20,3 +20,5 @@ export class AuthController {
     return this.authService.handleRefresh(req, res);
   }
 }
+
+export const authController = new AuthController(authService);

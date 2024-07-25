@@ -1,12 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
-import authRoutes from "./routes/authRoutes";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import http from "http";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import { authRoutes } from "./routes/authRoutes";
 
 const app = express();
 dotenv.config(); //to use env

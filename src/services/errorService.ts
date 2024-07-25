@@ -23,3 +23,5 @@ export class ErrorService {
     next();
   }
 }
+
+export const errorService = new ErrorService();

@@ -1,20 +1,22 @@
-import { Router } from "express";
-import { AuthService } from "../services/authService";
-import { AuthController } from "../controllers/authController";
-import { ErrorService } from "../services/errorService";
-import { AuthValidator } from "../validators/authValidator";
-
-const authService = new AuthService();
-const authController = new AuthController(authService);
-const errorService = new ErrorService();
-const authValidator = new AuthValidator(errorService);
+import { Request, Response, Router } from "express";
+import { authController } from "../controllers/authController";
+import { authValidator } from "../validators/authValidator";
+import { authMidlleware } from "../middlewares/authMiddleware";
 
 const router = Router();
+
+router.get(
+  "/test",
+  authMidlleware.verifyJwtToken.bind(authMidlleware),
+  (req: Request, res: Response) => res.json({ message: "pass" })
+);
+
 router.post(
   "/register",
   authValidator.registerValidation.bind(authValidator),
   authController.register.bind(authController)
 );
+
 router.post(
   "/login",
   authValidator.loginValidation.bind(authValidator),
@@ -23,4 +25,4 @@ router.post(
 router.post("/logout", authController.logout.bind(authController));
 router.get("/refresh", authController.refreshToken.bind(authController));
 
-export default router;
+export const authRoutes = router;
